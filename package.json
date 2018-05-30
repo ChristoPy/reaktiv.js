@@ -1,0 +1,11 @@
+{
+  "name": "reaktiv",
+  "version": "1.0.0",
+  "description": "Create dynamical reactive objects with no pain",
+  "main": "Index.js",
+  "scripts": {
+    "start": "node Index.js"
+  },
+  "author": "Christopher Ribeiro <christo_campiglia@hotmail.com>",
+  "license": "MIT"
+}
