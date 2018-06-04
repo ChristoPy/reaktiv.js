@@ -6,7 +6,7 @@ const GenerateId = () => {
 	return NewResult.join ("");
 }
 
-class ReaktivInstance {
+module.exports = class ReaktivInstance {
 
 	constructor (Data) {
 
