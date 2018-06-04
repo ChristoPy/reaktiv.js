@@ -19,24 +19,23 @@ module.exports = class ReaktivInstance {
 
 	AddReaktivProperty (Attribute) {
 
-		let Value = this.Data[Attribute]
+		let Value = this.__Data__[Attribute]
 		const ME = this;
 
-		Object.defineProperty (this.Data, Attribute, {
+		Object.defineProperty (this.__Data__, Attribute, {
 
 			get () {
 
-				return Value // Simply return the cached value
+				return Value
 			},
 			set (NewValue) {
 
-				Value = NewValue // Save the NewValue
-				ME.NotifyChange (Attribute) // Ignore for now
+				Value = NewValue
+				ME.NotifyChange (Attribute)
 			}
 		});
 	}
 
-	// Iterate through our object keys
 	ConfigureData () {
 
 		for (let Key in this.__Data__) {
