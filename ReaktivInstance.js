@@ -6,7 +6,7 @@ const GenerateId = () => {
 	return NewResult.join ("");
 }
 
-module.exports = class ReaktivInstance {
+class ReaktivInstance {
 
 	constructor (Data) {
 
@@ -17,30 +17,47 @@ module.exports = class ReaktivInstance {
 		this.ConfigureData ();
 	}
 
+	SetEvent (Property, CallBack) {
+
+		if (!this.__CallBacks__[Property]) {
+
+			this.__CallBacks__[Property] = [];
+		} 
+
+		this.__CallBacks__[Property].push (CallBack);
+	}
+
+	FireEvent (CallBack, NewValue) {
+
+		if (!this.__CallBacks__[CallBack] || this.__CallBacks__[CallBack].length < 1) return;
+
+		this.__CallBacks__[CallBack].forEach (CallBack => CallBack (this));
+	}
+
 	AddReaktivProperty (Attribute) {
 
-		let Value = this.__Data__[Attribute]
+		let Value = this.__ReaktivData__[Attribute];
 		const ME = this;
 
-		Object.defineProperty (this.__Data__, Attribute, {
+		Object.defineProperty (this.__ReaktivData__, Attribute, {
 
 			get () {
 
-				return Value
+				return Value;
 			},
 			set (NewValue) {
 
-				Value = NewValue
-				ME.NotifyChange (Attribute)
+				Value = NewValue;
+				ME.FireEvent (Attribute);
 			}
 		});
 	}
 
 	ConfigureData () {
 
-		for (let Key in this.__Data__) {
+		for (let Key in this.__ReaktivData__) {
 
-			if (this.__Data__.hasOwnProperty (Key)) {
+			if (this.__ReaktivData__.hasOwnProperty (Key)) {
 
 				this.AddReaktivProperty (Key);
 			}
