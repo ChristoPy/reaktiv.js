@@ -12,39 +12,39 @@ module.exports = class ReaktivInstance {
 
 		this.__ReaktivId__ = GenerateId ();
 		this.__ReaktivData__ = Data;
+		this.__CallBacks__ = {};
 
-
-		const This = this;
-
-		for (let Property in this.__ReaktivData__) {
-
-			this.AddReaktivProperty (Property, this.__ReaktivData__[Property]);
-		}
+		this.ConfigureData ();
 	}
 
-	AddReaktivProperty (PropertyName, Value) {
+	AddReaktivProperty (Attribute) {
 
-		if (!this.__ReaktivData__[PropertyName]) {
+		let Value = this.Data[Attribute]
+		const ME = this;
 
-			this.__ReaktivData__[PropertyName] = Value;
-		}
+		Object.defineProperty (this.Data, Attribute, {
 
-		this[PropertyName] = this.__ReaktivData__[PropertyName];
+			get () {
 
-
-		Object.defineProperty (this, PropertyName, {
-
-			get: () => {
-
-				console.log ("get", PropertyName);
-				return this.__ReaktivData__[PropertyName];
+				return Value // Simply return the cached value
 			},
+			set (NewValue) {
 
-			set: (NewValue) => {
-
-				console.log ("set", PropertyName, NewValue);
-				return this.__ReaktivData__[PropertyName] = NewValue;
+				Value = NewValue // Save the NewValue
+				ME.NotifyChange (Attribute) // Ignore for now
 			}
 		});
+	}
+
+	// Iterate through our object keys
+	ConfigureData () {
+
+		for (let Key in this.__Data__) {
+
+			if (this.__Data__.hasOwnProperty (Key)) {
+
+				this.AddReaktivProperty (Key);
+			}
+		}
 	}
 }
