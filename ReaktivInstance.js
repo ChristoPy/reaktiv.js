@@ -27,7 +27,7 @@ class ReaktivInstance {
 		this.__CallBacks__[Property].push (CallBack);
 	}
 
-	FireEvent (CallBack, NewValue) {
+	FireEvent (CallBack) {
 
 		if (!this.__CallBacks__[CallBack] || this.__CallBacks__[CallBack].length < 1) return;
 
