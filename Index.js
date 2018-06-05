@@ -1,10 +1,17 @@
 const ReaktivInstance = require ("./ReaktivInstance.js");
 
 
-class Reaktiv {
+module.exports = class Reaktiv {
 
-	static Make (SomeObject) {
+	constructor (SomeObject) {
 
-		return new ReaktivInstance (SomeObject);
+		this.__ReaktivInstance__ = new ReaktivInstance (SomeObject);
+
+		return this;
 	}
-}
+
+	On (EventName, PropertyName, CallBackFunction) {
+
+
+	}
+};
