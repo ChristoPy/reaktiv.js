@@ -17,21 +17,25 @@ module.exports = class ReaktivInstance {
 		this.ConfigureData ();
 	}
 
-	SetEvent (Property, CallBack) {
+	SetEvent (EventName, Property, CallBack) {
 
 		if (!this.__CallBacks__[Property]) {
 
 			this.__CallBacks__[Property] = [];
 		} 
 
-		this.__CallBacks__[Property].push (CallBack);
+		this.__CallBacks__[Property].push ({CallBack, EventName});
 	}
 
-	FireEvent (CallBack) {
+	FireEvent (Property) {
 
-		if (!this.__CallBacks__[CallBack] || this.__CallBacks__[CallBack].length < 1) return;
+		const CallBacks = Object.values (this.__CallBacks__);
 
-		this.__CallBacks__[CallBack].forEach (CallBack => CallBack (this));
+
+		if (!this.__CallBacks__[Property] || this.__CallBacks__[Property] === {}) return;
+
+
+		this.__CallBacks__[Property].forEach (Property => Property.CallBack (this));
 	}
 
 	AddReaktivProperty (Attribute) {
