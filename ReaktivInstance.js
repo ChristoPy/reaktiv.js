@@ -24,10 +24,13 @@ module.exports = class ReaktivInstance {
 			this.__CallBacks__[Property] = [];
 		} 
 
-		this.__CallBacks__[Property].push ({CallBack, EventName});
+		const ConfiguredEvent = {};
+		ConfiguredEvent[EventName] = CallBack
+
+		this.__CallBacks__[Property] = ConfiguredEvent;
 	}
 
-	FireEvent (Property) {
+	FireEvent (Property, EventName) {
 
 		const CallBacks = Object.values (this.__CallBacks__);
 
@@ -35,7 +38,8 @@ module.exports = class ReaktivInstance {
 		if (!this.__CallBacks__[Property] || this.__CallBacks__[Property] === {}) return;
 
 
-		this.__CallBacks__[Property].forEach (Property => Property.CallBack (this));
+		const AffectedProperty = this.__CallBacks__[Property];
+		AffectedProperty[EventName] ();
 	}
 
 	AddReaktivProperty (Attribute) {
@@ -52,7 +56,7 @@ module.exports = class ReaktivInstance {
 			set (NewValue) {
 
 				Value = NewValue;
-				ME.FireEvent (Attribute);
+				ME.FireEvent (Attribute, "Change");
 			}
 		});
 	}
